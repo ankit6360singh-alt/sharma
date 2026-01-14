@@ -67,7 +67,7 @@ const FeaturedSection = () => {
                                                 e.stopPropagation();
                                                 addToCart(product);
                                             }}
-                                            className="bg-white text-black p-3 rounded-full hover:bg-neon-orange hover:text-white transition-colors shadow-[0_0_15px_rgba(255,255,255,0.5)] hover:shadow-[0_0_20px_rgba(255,126,0,0.6)]"
+                                            className="bg-white text-black p-3 rounded-full hover:bg-neon-orange hover:text-white transition-colors"
                                         >
                                             <ShoppingCart className="w-5 h-5" />
                                         </button>
