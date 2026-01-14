@@ -1,78 +1,87 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
-
-const products = [
-    {
-        id: 1,
-        name: "Wildloom Hoodie",
-        price: "$89.00",
-        image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1000&auto=format&fit=crop",
-        tag: "BESTSELLER"
-    },
-    {
-        id: 2,
-        name: "Star Studded Tee",
-        price: "$45.00",
-        image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=1000&auto=format&fit=crop",
-        tag: "NEW"
-    },
-    {
-        id: 3,
-        name: "Neon Cargo Pants",
-        price: "$120.00",
-        image: "https://images.unsplash.com/photo-1517445312882-5636079c09c9?q=80&w=1000&auto=format&fit=crop",
-    },
-    {
-        id: 4,
-        name: "Oversized Denim",
-        price: "$95.00",
-        image: "https://images.unsplash.com/photo-1490216719910-c13f64923497?q=80&w=1000&auto=format&fit=crop",
-    }
-];
+import { ArrowUpRight, ShoppingCart } from 'lucide-react';
+import { useShop } from '../context/ShopContext';
+import { motion } from 'framer-motion';
 
 const FeaturedSection = () => {
+    const { products, addToCart } = useShop();
+
     return (
-        <section className="py-20 bg-black">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-end mb-12">
+        <section className="py-24 bg-black relative">
+            {/* Background Elements */}
+            <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-neon-blue/10 blur-[120px] rounded-full pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-neon-orange/10 blur-[120px] rounded-full pointer-events-none"></div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="flex justify-between items-end mb-16">
                     <div>
-                        <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-2">LATEST <span className="text-neon-orange">DROPS</span></h2>
-                        <div className="h-1 w-20 bg-neon-orange"></div>
+                        <motion.h2
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="text-4xl md:text-6xl font-display font-bold text-white mb-2"
+                        >
+                            LATEST <span className="text-neon-orange">DROPS</span>
+                        </motion.h2>
+                        <div className="h-1 w-24 bg-neon-orange"></div>
                     </div>
                     <a href="#" className="hidden md:flex items-center text-gray-400 hover:text-white transition-colors gap-2 text-sm font-medium tracking-widest uppercase group">
                         View All <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                     </a>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {products.map((product) => (
-                        <div key={product.id} className="group relative cursor-pointer">
-                            <div className="aspect-[3/4] overflow-hidden bg-gray-900 border border-white/10 relative">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {products.map((product, index) => (
+                        <motion.div
+                            key={product.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1 }}
+                            className="group relative cursor-pointer"
+                        >
+                            <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-gray-900 border border-white/10 group-hover:border-neon-orange/50 transition-colors duration-500">
                                 <img
                                     src={product.image}
                                     alt={product.name}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 filter saturate-0 group-hover:saturate-100"
                                 />
+
                                 {product.tag && (
-                                    <div className="absolute top-4 left-4 bg-neon-orange text-white text-xs font-bold px-3 py-1 uppercase tracking-wider">
+                                    <div className="absolute top-4 left-4 bg-neon-orange text-white text-xs font-bold px-3 py-1 uppercase tracking-wider shadow-lg">
                                         {product.tag}
                                     </div>
                                 )}
-                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                    <button className="bg-white text-black px-6 py-3 font-bold uppercase tracking-wider hover:bg-neon-orange hover:text-white transition-all transform translate-y-4 group-hover:translate-y-0 duration-300">
-                                        Add to Cart
-                                    </button>
+
+                                {/* Hover Overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
+
+                                <div className="absolute bottom-0 left-0 w-full p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                    <h3 className="text-white font-display font-bold text-2xl tracking-wide uppercase mb-1 drop-shadow-lg">{product.name}</h3>
+                                    <p className="text-gray-300 text-sm mb-4 font-light tracking-wider drop-shadow-md">{product.category}</p>
+
+                                    <div className="flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                                        <span className="text-xl font-mono text-neon-orange font-bold">{product.currency}{product.price.toFixed(2)}</span>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                addToCart(product);
+                                            }}
+                                            className="bg-white text-black p-3 rounded-full hover:bg-neon-orange hover:text-white transition-colors shadow-[0_0_15px_rgba(255,255,255,0.5)] hover:shadow-[0_0_20px_rgba(255,126,0,0.6)]"
+                                        >
+                                            <ShoppingCart className="w-5 h-5" />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="mt-4 flex justify-between items-start">
-                                <div>
-                                    <h3 className="text-white font-bold text-lg tracking-wide uppercase">{product.name}</h3>
-                                    <p className="text-gray-500 text-sm mt-1">Unisex Streetwear</p>
-                                </div>
-                                <span className="text-white font-mono font-medium">{product.price}</span>
-                            </div>
-                        </div>
+                        </motion.div>
                     ))}
+                </div>
+
+                <div className="mt-12 text-center md:hidden">
+                    <button className="border border-white/30 text-white px-8 py-3 uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors">
+                        View All Drops
+                    </button>
                 </div>
             </div>
         </section>
