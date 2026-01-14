@@ -3,9 +3,11 @@ import { ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const heroImages = [
-    '/assets/hero1.png',
-    '/assets/hero2.png',
-    '/assets/hero3.png'
+    '/assets/hero-new1.jpg',
+    '/assets/hero-new2.jpg',
+    '/assets/hero-new3.jpg',
+    '/assets/hero-new4.jpg',
+    '/assets/hero-new5.jpg'
 ];
 
 const Hero = () => {
